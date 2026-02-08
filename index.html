@@ -27,10 +27,32 @@ body{
   background: linear-gradient(180deg, #f7efe5, #efe0cf);
   color: var(--primary);
   min-height:100vh;
+  overflow-x:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:20px;
+}
+
+/* Floating chocolates */
+.choco{
+  position:fixed;
+  top:-10%;
+  font-size:1.5rem;
+  opacity:0.2;
+  animation: float 18s linear infinite;
+  pointer-events:none;
+}
+
+.choco:nth-child(1){ left:10%; animation-duration:22s; }
+.choco:nth-child(2){ left:30%; animation-duration:26s; }
+.choco:nth-child(3){ left:50%; animation-duration:20s; }
+.choco:nth-child(4){ left:70%; animation-duration:24s; }
+.choco:nth-child(5){ left:90%; animation-duration:28s; }
+
+@keyframes float{
+  from{ transform:translateY(0); }
+  to{ transform:translateY(120vh); }
 }
 
 .container{
@@ -40,6 +62,8 @@ body{
   padding:50px 40px;
   box-shadow:0 20px 50px rgba(0,0,0,0.1);
   animation: fadeIn 1.2s ease;
+  position:relative;
+  z-index:2;
 }
 
 h1{
@@ -60,10 +84,19 @@ h1{
   margin-bottom:35px;
   line-height:1.8;
   font-size:1.05rem;
+  opacity:0;
+  transform:translateY(20px);
+  transition:all 0.8s ease;
 }
 
-.section p{
-  margin-bottom:15px;
+.section.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.section p:hover{
+  color: var(--accent);
+  transition:0.3s;
 }
 
 .divider{
@@ -72,6 +105,33 @@ h1{
   background: var(--soft);
   margin:30px auto;
   border-radius:2px;
+}
+
+/* Interactive button */
+.reveal-btn{
+  display:block;
+  margin:30px auto;
+  padding:12px 26px;
+  border:none;
+  border-radius:30px;
+  background: var(--accent);
+  color:white;
+  font-size:0.95rem;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.reveal-btn:hover{
+  background: var(--primary);
+  transform:scale(1.05);
+}
+
+.secret{
+  display:none;
+  text-align:center;
+  margin-top:20px;
+  font-size:1rem;
+  color: var(--accent);
 }
 
 .footer{
@@ -101,6 +161,13 @@ h1{
 </head>
 
 <body>
+
+<!-- floating chocolates -->
+<div class="choco">🍫</div>
+<div class="choco">🍬</div>
+<div class="choco">🍫</div>
+<div class="choco">🍩</div>
+<div class="choco">🍪</div>
 
 <div class="container">
 
@@ -163,6 +230,15 @@ h1{
     </p>
   </div>
 
+  <button class="reveal-btn" onclick="reveal()">
+    Tap for a tiny Chocolate Day thought 🍬
+  </button>
+
+  <div class="secret" id="secret">
+    Some people don’t need chocolate to be sweet.<br>
+    You’re already doing great at it.
+  </div>
+
   <div class="footer">
     <strong>Happy Chocolate Day 🍫</strong><br>
     Stay exactly the way you are.
@@ -170,6 +246,24 @@ h1{
   </div>
 
 </div>
+
+<script>
+const sections = document.querySelectorAll('.section');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+},{ threshold:0.2 });
+
+sections.forEach(section => observer.observe(section));
+
+function reveal(){
+  document.getElementById('secret').style.display = 'block';
+}
+</script>
 
 </body>
 </html>
