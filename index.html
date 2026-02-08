@@ -34,7 +34,7 @@ body{
 /* music button */
 #musicControl{
   position:fixed;
-  top:16px;
+  top:8px;
   left:50%;
   transform:translateX(-50%);
   background:linear-gradient(135deg,#8b5e3c,#5a3a2e);
@@ -69,6 +69,7 @@ body{
 
 /* main card */
 .container{
+  margin-top:64px;
   width:100%;
   max-width:760px;
   background:#fff;
@@ -193,7 +194,6 @@ h1{
 
 <body>
 
-<!-- music control -->
 <div id="musicControl" onclick="toggleMusic()">🎵 Tap to play music</div>
 <audio id="bgMusic" src="music.mp3"></audio>
 
@@ -281,14 +281,12 @@ not the kind that expect anything back.)</small>
 </div>
 
 <script>
-/* reveal on scroll */
 const sections=document.querySelectorAll('.section');
 const observer=new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
 },{threshold:0.2});
 sections.forEach(s=>observer.observe(s));
 
-/* secret typewriter */
 let revealed=false;
 function reveal(){
   if(revealed) return;
@@ -303,13 +301,11 @@ function reveal(){
   },45);
 }
 
-/* background glow */
 document.addEventListener("mousemove",e=>{
   document.body.style.setProperty('--x',e.clientX+"px");
   document.body.style.setProperty('--y',e.clientY+"px");
 });
 
-/* click chocolates */
 document.addEventListener("click",e=>{
   const p=document.createElement("div");
   p.className="pop";
@@ -320,7 +316,6 @@ document.addEventListener("click",e=>{
   setTimeout(()=>p.remove(),1100);
 });
 
-/* music toggle */
 const music=document.getElementById("bgMusic");
 const control=document.getElementById("musicControl");
 let playing=false;
